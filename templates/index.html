@@ -1,10 +1,96 @@
-<ul>
-    {% for i in all_items %} 
-    <li>{{i.content}}
-    </li>
-    {% endfor %}
-</ul> 
-<form action="/addTodoItem/" method = "post">{% csrf_token %}
-    <input type="text" name="content">
-    <input type="submit" value="Add Todo Item">
+<br>
+<h2>To do list</h2>
+<hr></hr>
+<br>
+<form action="/addTodoItem/" method = "post" class="form-add">{% csrf_token %}
+    <input class="input-add" type="text" name="content">
+    <input type="submit" value="Add Item">
 </form> 
+<div class="content">
+        {% for i in all_items %} 
+            <div class="card">
+                <span>
+                    content: {{i.content}}
+                </span>
+                <div class="button-tool">
+                    <form action="/deleteTodoItem/{{i.id}}/" method = "post">{% csrf_token %}
+                        <input class="delete" type="submit" value="Delete">
+                    </form> 
+                    <form action="/doneItem/{{i.id}}/" method = "post">{% csrf_token %}
+                        <input class="delete" type="submit" value="Done" style="background:rgb(0, 140, 255)">
+                        <input name="content" value={{i.content}} style="display: none;">
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+
+
+<hr></hr>
+<h2>Done</h2>
+
+<div class="content">
+    {% for i in doneItems %} 
+        <div class="card">
+            <span>
+                content: {{i.content}}
+            </span>
+        </div>
+    {% endfor %}
+</div>
+
+
+<style>
+    h2 {
+        text-align: center;
+    }
+    .form-add {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    .input-add {
+        width: 200px;
+        border: 1px solid rgb(0, 140, 255);
+        border-radius: 10px;
+        height: 40px;
+    }
+    .content {
+        display: flex;
+        flex-direction: row;
+    }
+    ul {
+        list-style-type: none;
+    }
+    ul li {
+      
+    }
+    .card { 
+        background: rgb(233, 233, 167);
+        min-height: 200px;
+        width: 200px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .delete {
+        color: white; 
+        border: none; 
+        cursor: pointer;
+        background: red;
+        border-radius: 5px;
+    }
+    .delete:hover {
+        background: rgb(184, 0, 0);
+    }
+    .button-tool {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+</style>
